@@ -19,16 +19,16 @@ int main(int argc, char *argv[])
   sd =  socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
   val = 1;
   setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char *) &val, sizeof(int));
-	
+
   bzero((char *)&server_addr, sizeof(server_addr));
   server_addr.sin_family = AF_INET;
-  server_addr.sin_addr.s_addr = INADDR_ANY;	
+  server_addr.sin_addr.s_addr = INADDR_ANY;
   server_addr.sin_port = htons(56789);
 
   bind(sd, (struct sockaddr *)&server_addr, sizeof(server_addr));
   listen(sd, 5);
   size = sizeof(client_addr);
- 
+
   while (1)
     {
       printf("Esperando conexion\n");
@@ -36,13 +36,13 @@ int main(int argc, char *argv[])
 
       for(i=0;
 	  i<2*sizeof(long int)&&(c=read(sc,((char *)num)+i,2*sizeof(long int)-i))>0;
-	  i+=c);   /* recibe la petición */
+	  i+=c);   /* recibe la peticiï¿½n */
 
-      res = htonl(ntohl(num[0]) + ntohl(num[1]));
-      write(sc, &res, sizeof(long int));	/* se envía el resultado	*/
-		
+      res = htonl(ntohl(num[0]) * ntohl(num[1]));
+      write(sc, &res, sizeof(long int));	/* se envï¿½a el resultado	*/
+
       close(sc);
     }
   close (sd);
   return 0;
-}	
+}
